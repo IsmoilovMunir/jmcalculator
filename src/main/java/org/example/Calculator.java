@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 
+import static java.lang.Integer.parseInt;
+
 public class Calculator {
 
     public static void calculate(String leftNumber, String operation, String rightNumber) {
@@ -15,9 +17,22 @@ public class Calculator {
         boolean opValid = true;
         int leftInt, rightInt;
         int resultInt = 0;
+        boolean modeRoman = false;
 
-        leftInt = RomanNumerals.parse(leftNumber.toUpperCase());
-        rightInt = RomanNumerals.parse(rightNumber.toUpperCase());
+        try {
+            int leftNumberint = parseInt(leftNumber);
+            int rightNumberint = parseInt(rightNumber);
+            String leftRomanNumber = RomanNumerals.format(leftNumberint);
+            String rightRomanNumber = RomanNumerals.format(rightNumberint);
+            leftInt = RomanNumerals.parse(leftRomanNumber.toUpperCase());
+            rightInt = RomanNumerals.parse(rightRomanNumber.toUpperCase());
+
+        } catch (NumberFormatException e) {
+            modeRoman = true;
+            leftInt = RomanNumerals.parse(leftNumber.toUpperCase());
+            rightInt = RomanNumerals.parse(rightNumber.toUpperCase());
+
+        }
 
 
         if (leftInt == -1) {
@@ -60,23 +75,28 @@ public class Calculator {
             else if (operation.equals("/")) {
                 resultInt = leftInt / rightInt;
             }
+            //**
 
-
+            if ((leftInt >10 || leftInt<0) || (rightInt>10 || rightInt<0)){
+                System.out.println("eror");
+                System.exit(1);
+            }
 
 
 
             // Форматирует и отображает результат
 
-            if(opValid && numValid) {
+            if (opValid && numValid) {
 
                 // Если результат находится в диапазоне, форматируется в римскую цифру и отображается на консоли
                 if (resultInt <= 0 || resultInt >= 4000) {
                     System.out.println("result out of range");
-                } else {
+                } else if (modeRoman) {
                     System.out.println(RomanNumerals.format(resultInt));
+                } else {
+                    System.out.println(resultInt);
                 }
             }
-
 
 
 
@@ -113,8 +133,7 @@ public class Calculator {
                 leftNumber = scanner.next();
                 operation = scanner.next();
                 rightNumber = scanner.next();
-            }
-            catch (NoSuchElementException e) {
+            } catch (NoSuchElementException e) {
                 System.err.println("syntax error");
                 System.out.println();
                 continue;
