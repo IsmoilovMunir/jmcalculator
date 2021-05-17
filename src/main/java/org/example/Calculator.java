@@ -33,15 +33,21 @@ public class Calculator {
             rightInt = RomanNumerals.parse(rightNumber.toUpperCase());
 
         }
+        if ((leftInt >10 || leftInt<0) || (rightInt>10 || rightInt<0)){
+            System.out.println("ошибка");
+            System.exit(1);
+                        }
 
 
-        if (leftInt == -1) {
+        else if (leftInt == -1) {
             numValid = false;
             System.out.println("неверный номер: " + leftNumber);
+            System.exit(1);
         }
-        if (rightInt == -1) {
+       else if (rightInt == -1) {
             numValid = false;
             System.out.println("неверный номер: " + rightNumber);
+            System.exit(1);
         }
 
         if (operation.equals("+") || operation.equals("-") || operation.equals("*") ||
@@ -50,6 +56,7 @@ public class Calculator {
         } else {
             opValid = false;
             System.out.println("недопустимая операция");
+            System.exit(1);
 
         }
 
@@ -77,10 +84,7 @@ public class Calculator {
             }
             //**
 
-            if ((leftInt >10 || leftInt<0) || (rightInt>10 || rightInt<0)){
-                System.out.println("eror");
-                System.exit(1);
-            }
+
 
 
 
@@ -89,8 +93,8 @@ public class Calculator {
             if (opValid && numValid) {
 
                 // Если результат находится в диапазоне, форматируется в римскую цифру и отображается на консоли
-                if (resultInt <= 0 || resultInt >= 4000) {
-                    System.out.println("result out of range");
+                if (resultInt <= -400 || resultInt >= 400) {
+                    System.out.println("результат вне диапазона");
                 } else if (modeRoman) {
                     System.out.println(RomanNumerals.format(resultInt));
                 } else {
